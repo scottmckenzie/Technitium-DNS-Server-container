@@ -1,3 +1,5 @@
+ARG VERSION
+
 # build stage
 FROM mcr.microsoft.com/dotnet/sdk:10.0-noble AS build
 
