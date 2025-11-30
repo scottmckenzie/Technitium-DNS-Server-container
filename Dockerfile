@@ -3,7 +3,7 @@ FROM mcr.microsoft.com/dotnet/sdk:10.0-noble AS build
 
 
 # Build the TechnitiumLibrary source
-RUN git clone --depth 1 --branch dns-server-${VERSION} https://github.com/TechnitiumSoftware/TechnitiumLibrary.git .
+RUN git clone --depth 1 --branch "dns-server-${VERSION}" https://github.com/TechnitiumSoftware/TechnitiumLibrary.git .
 RUN <<EOF
   dotnet build TechnitiumLibrary/TechnitiumLibrary.ByteTree/TechnitiumLibrary.ByteTree.csproj -c Release
   dotnet build TechnitiumLibrary/TechnitiumLibrary.Net/TechnitiumLibrary.Net.csproj -c Release
