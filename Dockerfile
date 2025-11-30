@@ -15,8 +15,13 @@ ARG SERVER_TAG
 RUN git clone --depth 1 --branch ${SERVER_TAG} https://github.com/TechnitiumSoftware/DnsServer.git
 RUN dotnet publish DnsServer/DnsServerApp/DnsServerApp.csproj -c Release
 
-# final stage/image
-FROM mcr.microsoft.com/dotnet/runtime-deps:10.0-noble-chiseled
+# Runtime stage
+FROM mcr.microsoft.com/dotnet/runtime:10.0-noble-chiseled
+
+# https://www.gnu.org/software/gettext/manual/html_node/Locale-Environment-Variables.html
+ENV \
+  LC_ALL=en_US.UTF-8 \
+  LANG=en_US.UTF-8
 
 WORKDIR /opt/technitium/dns
 COPY --from=build --link ./DnsServer/DnsServerApp/bin/Release/publish /opt/technitium/dns
@@ -24,6 +29,7 @@ COPY --from=build --link ./DnsServer/DnsServerApp/bin/Release/publish /opt/techn
 # Support for graceful shutdown:
 STOPSIGNAL SIGINT
 
+USER $APP_UID
 ENTRYPOINT ["dotnet", "/opt/technitium/dns/DnsServerApp.dll"]
 CMD ["/etc/dns"]
 
