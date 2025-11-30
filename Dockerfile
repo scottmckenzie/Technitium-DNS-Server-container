@@ -16,7 +16,7 @@ RUN git clone --depth 1 --branch ${SERVER_TAG} https://github.com/TechnitiumSoft
 RUN dotnet publish DnsServer/DnsServerApp/DnsServerApp.csproj -c Release
 
 # Runtime stage
-FROM mcr.microsoft.com/dotnet/runtime:9.0-noble-chiseled
+FROM mcr.microsoft.com/dotnet/aspnet:9.0-noble-chiseled
 
 # https://www.gnu.org/software/gettext/manual/html_node/Locale-Environment-Variables.html
 ENV \
