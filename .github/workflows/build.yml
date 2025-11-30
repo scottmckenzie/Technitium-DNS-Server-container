@@ -20,8 +20,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Set IMAGE_NAME environment variable
-        run: echo "IMAGE_NAME=${GITHUB_REPOSITORY@L}" >> "${GITHUB_ENV}"
+      - name: Set environment variables
+        run: |
+          echo "IMAGE_NAME=${GITHUB_REPOSITORY@L}" >> "${GITHUB_ENV}"
+          echo "LIBRARY_TAG=dns-server-${VERSION}" >> "${GITHUB_ENV}"
+          echo "SERVER_TAG=${VERSION}" >> "${GITHUB_ENV}"
 
       - name: Extract metadata (tags, labels) for Docker
         id: meta
@@ -47,7 +50,8 @@ jobs:
         with:
           context: .
           build-args: |
-            VERSION=${{ env.VERSION }}
+            LIBRARY_TAG=${{ env.LIBRARY_TAG }}
+            SERVER_TAG=${{ env.SERVER_TAG }}
           platforms: linux/arm64
           push: true
           tags: |

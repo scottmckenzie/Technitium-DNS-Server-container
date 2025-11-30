@@ -1,10 +1,11 @@
-ARG VERSION
+ARG LIBRARY_TAG
+ARG SERVER_TAG
 
 # build stage
 FROM mcr.microsoft.com/dotnet/sdk:10.0-noble AS build
 
 # Build the TechnitiumLibrary source
-RUN git clone --depth 1 --branch dns-server-${VERSION} https://github.com/TechnitiumSoftware/TechnitiumLibrary.git
+RUN git clone --depth 1 --branch ${LIBRARY_TAG} https://github.com/TechnitiumSoftware/TechnitiumLibrary.git
 RUN <<EOF
   dotnet build TechnitiumLibrary/TechnitiumLibrary.ByteTree/TechnitiumLibrary.ByteTree.csproj -c Release
   dotnet build TechnitiumLibrary/TechnitiumLibrary.Net/TechnitiumLibrary.Net.csproj -c Release
@@ -12,7 +13,7 @@ RUN <<EOF
 EOF
 
 # Build the DnsServer source
-RUN git clone --depth 1 --branch ${VERSION} https://github.com/TechnitiumSoftware/DnsServer.git
+RUN git clone --depth 1 --branch ${SERVER_TAG} https://github.com/TechnitiumSoftware/DnsServer.git
 RUN dotnet publish DnsServer/DnsServerApp/DnsServerApp.csproj -c Release
 
 # final stage/image
