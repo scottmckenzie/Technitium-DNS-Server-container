@@ -19,7 +19,7 @@ RUN dotnet publish DnsServer/DnsServerApp/DnsServerApp.csproj -c Release
 FROM mcr.microsoft.com/dotnet/runtime-deps:10.0-noble-chiseled
 
 WORKDIR /opt/technitium/dns
-COPY --from=build ./DnsServerApp/bin/Release/publish /opt/technitium/dns
+COPY --from=build --link ./DnsServer/DnsServerApp/bin/Release/publish /opt/technitium/dns
 
 # Support for graceful shutdown:
 STOPSIGNAL SIGINT
